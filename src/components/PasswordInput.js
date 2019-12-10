@@ -3,8 +3,9 @@ import styled from "@emotion/styled";
 
 //STYLE start
 
-function calcHue(props) {
+function calculateHue(props) {
   return Math.min(props.value.length * 10, 100);
+  //Math.min always returns the smaller value. If the password has 7 characters the result is 70. So 70 is returned. If the password has 12 characters the result is 120. So 100 is returned.
 }
 
 const Input = styled.input`
@@ -15,21 +16,17 @@ const Input = styled.input`
   font-family: "Source Sans Pro", sans-serif;
   background: red;
   padding: 5px;
+  border: none;
+  box-shadow: 2px 3px 6px #111;
   &:focus {
-    background: hsl(${calcHue}, 60%, 60%);
-    outline: 4px solid slateblue;
+    background: hsl(${calculateHue}, 60%, 60%);
   }
 `;
 
 //STYLE end
 
-export default function PasswordInput({ onChange }) {
+export default function PasswordInput() {
   const [password, setPassword] = React.useState("");
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    onChange(password);
-  }
 
   function handleChange(event) {
     const value = event.target.value;
@@ -37,8 +34,13 @@ export default function PasswordInput({ onChange }) {
   }
 
   return (
-    <form onChange={handleSubmit}>
-      <Input type="password" value={password} onChange={handleChange} />
+    <form>
+      <Input
+        autoFocus
+        type="password"
+        value={password}
+        onChange={handleChange}
+      />
     </form>
   );
 }
